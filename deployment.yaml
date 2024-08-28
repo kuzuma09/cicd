@@ -4,6 +4,7 @@ metadata:
   name: nginx-deployment
   labels:
     app: nginx
+  namespace: medlink
 spec:
   replicas: 2
   selector:
