@@ -1,16 +1,22 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: cicd-app
+  name: nginx-deployment
+  labels:
+    app: nginx
   namespace: argocd
 spec:
-  project: default
-  source: cicd/argocd
-    repoURL: https://github.com/kuzuma09/cicd.git
-    path: 
-    targetRevision: HEAD
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: default
-  syncPolicy:
-    automated: {}
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21.6
+        ports:
+        - containerPort: 80
